@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import LinearGradient from "react-native-linear-gradient";
 import TaskInputField from "./components/TaskInputField";
+import TaskItem from "./components/TaskItem";
 
-import { Keyboard, StyleSheet, Text, View } from "react-native";
+import { Keyboard, StyleSheet, Text, View, FlatList } from "react-native";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
@@ -44,6 +45,21 @@ export default function App() {
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>TODO LIST {tasks.length}</Text>
         </View>
+        <FlatList
+          horizontal={false}
+          data={tasks}
+          renderItem={({ item, index }) => (
+            <View key={index} style={styles.taskContainer}>
+              <TaskItem
+                index={index + 1}
+                task={item}
+                checkTask={() => checkTask(index)}
+                deleteTask={() => deleteTask(index)}
+              />
+            </View>
+          )}
+          keyExtractor={(item) => item.id.toString()}
+        />
         <TaskInputField addTask={addTask} />
       </LinearGradient>
     </View>
@@ -66,5 +82,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginTop: 50,
     marginBottom: 10,
+  },
+  taskContainer: {
+    marginTop: 20,
   },
 });
