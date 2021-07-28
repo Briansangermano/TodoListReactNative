@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LinearGradient from "react-native-linear-gradient";
+import TaskInputField from "./components/TaskInputField";
 
-import {
-  Keyboard,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Keyboard, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
@@ -48,6 +44,7 @@ export default function App() {
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>TODO LIST {tasks.length}</Text>
         </View>
+        <TaskInputField addTask={addTask} />
       </LinearGradient>
     </View>
   );
