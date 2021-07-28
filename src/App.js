@@ -42,13 +42,9 @@ export default function App() {
 
   const checkTask = (taskIndex) => {
     const newTasks = [...tasks];
-    const taskToModify = newTasks[taskIndex];
-    if (taskToModify.checked) {
-      newTasks[taskIndex].checked = false;
-    } else {
-      newTasks[taskIndex].checked = true;
-    }
-    setTasks(newTasks);
+    const taskToModify = newTasks[taskIndex]
+    newTasks[taskIndex].checked = !newTasks[taskIndex].checked
+    setTasks(newTasks)
   };
 
   const deleteTask = (deleteIndex) => {
@@ -68,7 +64,7 @@ export default function App() {
           horizontal={false}
           data={tasks}
           renderItem={({ item, index }) => (
-            <View key={index} style={styles.taskContainer}>
+            <View key={item.id} style={styles.taskContainer}>
               <TaskItem
                 index={index + 1}
                 task={item}
@@ -77,7 +73,7 @@ export default function App() {
               />
             </View>
           )}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item, index) => item.id.toString()}
         />
         <TaskInputField addTask={addTask} />
       </LinearGradient>
