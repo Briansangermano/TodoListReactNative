@@ -2,11 +2,30 @@ import React, { useState, useEffect } from "react";
 import LinearGradient from "react-native-linear-gradient";
 import TaskInputField from "./components/TaskInputField";
 import TaskItem from "./components/TaskItem";
-
+import AsyncStorage from "@react-native-community/async-storage";
 import { Keyboard, StyleSheet, Text, View, FlatList } from "react-native";
 
 export default function App() {
   const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      AsyncStorage.getItem("tasks")
+        .then(
+          (localStoragetodos) =>
+            localStoragetodos && setTasks(JSON.parse(localStoragetodos))
+        )
+        .catch((error) => new Error(error));
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      AsyncStorage.setItem("tasks", JSON.stringify(tasks)).catch(
+        (error) => new Error(error)
+      );
+    })();
+  }, [tasks]);
 
   const addTask = (task) => {
     if (task == null) return;
